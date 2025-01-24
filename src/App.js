@@ -1,10 +1,16 @@
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import './App.css';
+import Dashboard from './Pages/Home/Dashboard';
+import Login from './Pages/Login';
 
 function App() {
   return (
-    <div className="flex justify-center items-center min-h-screen bg-blue-100">
-      <h1 className="text-4xl font-semibold text-blue-600">Hello, Welcome to Tailwind CSS with React!</h1>
-    </div>
+    <Router>
+        <Routes>
+          <Route path="/" element={<Dashboard />} />
+          <Route path="/login" element={<Login />} />
+        </Routes>
+    </Router>
   );
 }
 
