@@ -1,14 +1,31 @@
-import React from "react";
+import React, { useState } from "react";
 import AuthLayout from "../Layout/AuthLayout";
+import { FaEdit } from "react-icons/fa";
+import { FaRegTrashCan } from "react-icons/fa6";
+import Popup from "../Components/Popup";
+import AddPopup from "../Components/AddPopup";
 
 export default function FileReading() {
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const openPopup = () => setIsPopupOpen(true);
+  const closePopup = () => setIsPopupOpen(false);
+
+  const [isEditPopupOpen, setIsEditPopupOpen] = useState(false);
+  const openEditPopup = () => setIsEditPopupOpen(true);
+  const closeEditPopup = () => setIsEditPopupOpen(false);
+
   return (
     <AuthLayout page={"Dashboard"}>
       <div className="flex items-center justify-between items-center space-y-4 md:space-y-0">
         <h2 className="text-[#151547] text-lg tracking-[-0.04em] font-medium m-0">
           CSV File Content{" "}
         </h2>
-        <button className="bg-[#1C5FE8] hover:bg-[#0a3fab] inline-block font-medium text-base text-white tracking-[-0.04em] rounded-lg lg:rounded-xl px-5 py-3">
+        <button
+          className="bg-[#1C5FE8] hover:bg-[#0a3fab] inline-block font-medium text-base text-white tracking-[-0.04em] rounded-lg lg:rounded-xl px-5 py-3"
+          onClick={() => {
+            openPopup();
+          }}
+        >
           <span className="mr-1">+</span> Add Data
         </button>
       </div>
@@ -37,6 +54,9 @@ export default function FileReading() {
                 </th>
                 <th className="px-4 py-3  tracking-[-0.04em] text-sm font-medium text-left">
                   Max risk
+                </th>
+                <th className="px-4 py-3  tracking-[-0.04em] text-sm font-medium text-left">
+                  Actions
                 </th>
               </tr>
             </thead>
@@ -69,7 +89,24 @@ export default function FileReading() {
                     $1000
                   </td>
                   <td className="px-3 py-5 text-[#1D1D42] tracking-[-0.04em] text-sm font-medium text-left">
-                    5%
+                    <div className="flex gap-2 items-center">
+                      {/* <Link href={`/shipment/add/${shipment?._id}`}> */}
+                      <FaEdit
+                        size={20}
+                        className="cursor-pointer"
+                        color="#16A34A"
+                        onClick={() => {
+                          openEditPopup();
+                        }}
+                      />
+                      {/* </Link> */}
+                      <FaRegTrashCan
+                        size={20}
+                        className="cursor-pointer"
+                        color="#Ff0000"
+                        // onClick={() => deleteshipment(shipment?._id)}
+                      />
+                    </div>
                   </td>
                 </tr>
               ))}
@@ -77,6 +114,15 @@ export default function FileReading() {
           </table>
         </div>
       </div>
+      {/* Add Popup */}
+      <AddPopup isOpen={isPopupOpen} onClose={closePopup} />
+      {/* Edit Popup */}
+      <AddPopup
+        isOpen={isEditPopupOpen}
+        onClose={closeEditPopup}
+        size={"max-w-[800px]"}
+        isEdit={true}
+      />
     </AuthLayout>
   );
 }

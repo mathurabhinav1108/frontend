@@ -7,6 +7,8 @@ import { PiTrolleySuitcaseLight } from "react-icons/pi";
 import { useLocation, Link } from "react-router-dom";
 import { IoIosMenu } from "react-icons/io";
 import { IoMdArrowRoundBack } from "react-icons/io";
+import { RiSortNumberAsc } from "react-icons/ri";
+import { TbFileSpreadsheet } from "react-icons/tb";
 
 function SideBar({role}) {
     const location = useLocation();
@@ -67,15 +69,26 @@ function SideBar({role}) {
                 Dashboard
               </Link>
               <Link
-                to="/shipment"
+                to="/random-numbers"
                 className={`flex items-center py-2.5 px-2.5 gap-2 text-[#727272] text-base font-medium tracking-[-0.06em] ${
-                  pathname.startsWith("/shipment")
+                  pathname.startsWith("/random-numbers")
                     ? "text-blue-500 bg-blue-100"
                     : "hover:bg-gray-100"
                 } rounded-md`}
               >
-                <FiTruck size={20} />
-                Shipment
+                <RiSortNumberAsc size={20}  />
+                Random Numbers
+              </Link>
+              <Link
+                to="/excel"
+                className={`flex items-center py-2.5 px-2.5 gap-2 text-[#727272] text-base font-medium tracking-[-0.06em] ${
+                  pathname.startsWith("/excel")
+                    ? "text-blue-500 bg-blue-100"
+                    : "hover:bg-gray-100"
+                } rounded-md`}
+              >
+                <TbFileSpreadsheet size={20}/>
+                Excel Sheet Data
               </Link>
             </ul>
           </div>

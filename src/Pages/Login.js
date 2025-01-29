@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import Details from "../api/Listing/Details";
+// import Details from "../api/Listing/Details";
 import toast from "react-hot-toast";
 
 export default function Login() {
@@ -19,37 +19,42 @@ export default function Login() {
     }));
   };
 
-  const handleSubmit = (e) => {
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   setLoading(true);
+  //   const main = new Details();
+  //   const response = main.login({
+  //     email: formData?.email,
+  //     password: formData.password,
+  //   });
+  //   response
+  //     .then((res) => {
+  //       if (res && res?.data && res?.data?.status) {
+  //         toast.success(res.data.message);
+  //         localStorage.setItem("token", res?.data?.token);
+  //         navigate("/");
+  //         setLoading(false);
+  //       } else {
+  //         toast.error(res.data.message);
+  //         setLoading(false);
+  //       }
+  //       setFormData({
+  //         email: "",
+  //         password: "",
+  //       });
+  //       setLoading(false);
+  //     })
+  //     .catch((error) => {
+  //       toast.error(error?.response?.data?.message);
+  //       console.error("error", error);
+  //       setLoading(false);
+  //     });
+  // };
+
+  const handleSubmit=(e)=>{
     e.preventDefault();
-    setLoading(true);
-    const main = new Details();
-    const response = main.login({
-      email: formData?.email,
-      password: formData.password,
-    });
-    response
-      .then((res) => {
-        if (res && res?.data && res?.data?.status) {
-          toast.success(res.data.message);
-          localStorage.setItem("token", res?.data?.token);
-          navigate("/");
-          setLoading(false);
-        } else {
-          toast.error(res.data.message);
-          setLoading(false);
-        }
-        setFormData({
-          email: "",
-          password: "",
-        });
-        setLoading(false);
-      })
-      .catch((error) => {
-        toast.error(error?.response?.data?.message);
-        console.error("error", error);
-        setLoading(false);
-      });
-  };
+    console.log("Hello");
+  } 
 
   return (
     <div className="flex h-screen">
