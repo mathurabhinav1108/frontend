@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-// import Details from "../api/Listing/Details";
 import toast from "react-hot-toast";
+import Listing from "../Api/Listing";
 
 export default function Login() {
   const [formData, setFormData] = useState({
-    email: "",
+    username: "",
     password: "",
   });
   const [loading, setLoading] = useState(false);
@@ -19,42 +19,38 @@ export default function Login() {
     }));
   };
 
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   setLoading(true);
-  //   const main = new Details();
-  //   const response = main.login({
-  //     email: formData?.email,
-  //     password: formData.password,
-  //   });
-  //   response
-  //     .then((res) => {
-  //       if (res && res?.data && res?.data?.status) {
-  //         toast.success(res.data.message);
-  //         localStorage.setItem("token", res?.data?.token);
-  //         navigate("/");
-  //         setLoading(false);
-  //       } else {
-  //         toast.error(res.data.message);
-  //         setLoading(false);
-  //       }
-  //       setFormData({
-  //         email: "",
-  //         password: "",
-  //       });
-  //       setLoading(false);
-  //     })
-  //     .catch((error) => {
-  //       toast.error(error?.response?.data?.message);
-  //       console.error("error", error);
-  //       setLoading(false);
-  //     });
-  // };
-
-  const handleSubmit=(e)=>{
+  const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Hello");
-  } 
+    setLoading(true);
+    const main = new Listing();
+    const response = main.login({
+      username: formData?.username,
+      password: formData.password,
+    });
+    response
+      .then((res) => {
+        if (res && res?.data && res?.data?.access_token) {
+          toast.success("Login Successful");
+          localStorage && localStorage.setItem("token", res?.data?.access_token);
+          navigate("/");
+          setLoading(false);
+        } else {
+          toast.error("Unable to login");
+          setLoading(false);
+        }
+        setFormData({
+          username: "",
+          password: "",
+        });
+        setLoading(false);
+      })
+      .catch((error) => {
+        toast.error("An unknown error occured. Please try again");
+        console.error("error", error);
+        setLoading(false);
+      });
+  };
+
 
   return (
     <div className="flex h-screen">
@@ -77,13 +73,13 @@ export default function Login() {
               htmlFor="email"
               className="block text-sm lg:text-base font-medium text-[#727272] tracking-[-0.06em] mb-2"
             >
-              Email
+              Username
             </label>
             <input
-              type="email"
-              id="email"
-              name="email"
-              value={formData.email}
+              type="text"
+              id="username"
+              name="username"
+              value={formData.username}
               onChange={handleChange}
               className="block w-full h-12 lg:h-[65px] px-3 py-3 bg-gray-100 text-[#727272] border border-transparent rounded-lg lg:rounded-[15px] sm:text-sm"
               required

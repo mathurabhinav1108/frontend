@@ -4,6 +4,7 @@ import { FaEdit } from "react-icons/fa";
 import { FaRegTrashCan } from "react-icons/fa6";
 import Popup from "../Components/Popup";
 import AddPopup from "../Components/AddPopup";
+import Listing from "../Api/Listing";
 
 export default function FileReading() {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -13,6 +14,29 @@ export default function FileReading() {
   const [isEditPopupOpen, setIsEditPopupOpen] = useState(false);
   const openEditPopup = () => setIsEditPopupOpen(true);
   const closeEditPopup = () => setIsEditPopupOpen(false);
+
+  const [listing, setLisitng] = useState("");
+  const [Loading, setLoading] = useState(false);
+
+  const getData = () => {
+    setLoading(true);
+    const main = new Listing();
+    main
+      .Rowsget()
+      .then((r) => {
+        setLoading(false);
+        setLisitng(r?.data);
+      })
+      .catch((err) => {
+        setLoading(false);
+        setLisitng([]);
+        console.log("error", err);
+      });
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
 
   return (
     <AuthLayout page={"Dashboard"}>
@@ -61,32 +85,32 @@ export default function FileReading() {
               </tr>
             </thead>
             <tbody>
-              {/* {listing && listing?.map((data, index) => ( */}
-              {[1, 2, 3, 4, 5]?.map((data, index) => (
+              {listing && listing?.map((data, index) => (
+              // {[1, 2, 3, 4, 5]?.map((data, index) => (
                 <tr
                   key={index}
                   className="border-b border-black border-opacity-10 font-medium"
                 >
                   <td className="px-3 py-5 text-[#1D1D42] tracking-[-0.04em] text-sm font-medium text-left">
-                    {index + 1}
+                    {data?.user}
                   </td>
                   <td className="px-3 py-5 text-[#1D1D42] tracking-[-0.04em] text-sm font-medium text-left capitalize">
-                    Abhinav
+                  {data?.broker}
                   </td>
                   <td className="px-3 py-5 text-[#1D1D42] tracking-[-0.04em] text-sm font-medium text-left">
-                    dfdfgdgfgf
+                  {data?.[`API key`]}
                   </td>
                   <td className="px-3 py-5 text-[#1D1D42] tracking-[-0.04em] text-sm font-medium text-left">
-                    key_12345
+                  {data?.[`API secret`]}
                   </td>
                   <td className="px-3 py-5 text-[#1D1D42] tracking-[-0.04em] text-sm font-medium text-left">
-                    secret_54321
+                  {data?.pnl}
                   </td>
                   <td className="px-3 py-5 text-[#1D1D42] tracking-[-0.04em] text-sm font-medium text-left">
-                    $500
+                  {data?.margin}
                   </td>
                   <td className="px-3 py-5 text-[#1D1D42] tracking-[-0.04em] text-sm font-medium text-left">
-                    $1000
+                  {data?.max_risk}
                   </td>
                   <td className="px-3 py-5 text-[#1D1D42] tracking-[-0.04em] text-sm font-medium text-left">
                     <div className="flex gap-2 items-center">

@@ -1,7 +1,32 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import AuthLayout from "../../Layout/AuthLayout";
+import Listing from "../../Api/Listing";
 
 export default function Dashboard() {
+
+  const [listing, setLisitng] = useState("");
+  const [Loading, setLoading] = useState(false);
+
+  const getsessions = () => {
+    setLoading(true);
+    const main = new Listing();
+    main
+      .SessionsGet()
+      .then((r) => {
+        setLoading(false);
+        setLisitng(r?.data);
+      })
+      .catch((err) => {
+        setLoading(false);
+        setLisitng([]);
+        console.log("error", err);
+      });
+  };
+
+  useEffect(() => {
+    getsessions();
+  }, []);
+
   return (
     <AuthLayout page={"Dashboard"}>
       <div className="flex items-center justify-between items-center space-y-4 md:space-y-0">
@@ -27,7 +52,7 @@ export default function Dashboard() {
             </thead>
             <tbody>
               {/* {listing && listing?.map((data, index) => ( */}
-              {[1, 2, 3, 4, 5]?.map((data, index) => (
+              {listing && listing?.map((data, index) => (
                 <tr
                   key={index}
                   className="border-b border-black border-opacity-10 font-medium"
@@ -36,10 +61,10 @@ export default function Dashboard() {
                     {index + 1}
                   </td>
                   <td className="px-3 py-5 text-[#1D1D42] tracking-[-0.04em] text-sm font-medium text-left capitalize">
-                    Abhinav
+                    {data?.username}
                   </td>
                   <td className="px-3 py-5 text-[#1D1D42] tracking-[-0.04em] text-sm font-medium text-left">
-                    dfdfgdgfgf
+                    {data?.token}
                   </td>
                 </tr>
               ))}
