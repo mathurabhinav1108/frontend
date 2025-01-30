@@ -1,17 +1,53 @@
 import React, { useEffect, useState } from "react";
-import { useLocation, Link } from "react-router-dom";
+import { useLocation, Link, useNavigate } from "react-router-dom";
 import { MdLogout } from "react-icons/md";
 import { IoSettingsOutline } from "react-icons/io5";
 import SideBar from "./Sidebar";
+import toast from "react-hot-toast";
+import Listing from "../Api/Listing";
 
 export default function AuthLayout({ children, page }) {
-  // const router = useRouter(); // Corrected variable name
+  const navigate = useNavigate();
 
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const toggleDropdown = () => {
     setDropdownOpen((prev) => !prev);
   };
+
+  const fetchData = async (signal) => {
+    try {
+      const main = new Listing();
+      const response = await main.tokenVerify(signal);
+      if (response && response?.data && response?.data?.status) {
+        console.log("Token is valid");
+      }
+      else{
+      navigate("/login");
+      toast.error("Please log in first.");
+      }
+    } catch (error) {
+      console.log("error", error);
+      localStorage && localStorage?.removeItem("token");
+      navigate("/login");
+      toast.error("Please log in first.");
+    }
+  };
+
+  useEffect(() => {
+    const controller = new AbortController();
+    const { signal } = controller;
+    fetchData(signal);
+
+    return () => controller.abort();
+  }, []);
+
+  const handleLogout = () => {
+    localStorage && localStorage.removeItem("token");
+    navigate("/login");
+    toast.success("Logout Successfully");
+  };
+
 
   return (
     <div className="md:flex flex-wrap  bg-[#F5F6FB] items-start">
@@ -51,12 +87,12 @@ export default function AuthLayout({ children, page }) {
               {dropdownOpen && (
                 <div className="absolute right-0 mt-2 w-48 bg-gray-800 border border-gray-600 rounded-md shadow-lg z-50">
                   <ul className="py-1">
-                    <li className="flex gap-2 px-4 py-2 text-gray-300 hover:bg-gray-700 cursor-pointer">
+                    {/* <li className="flex gap-2 px-4 py-2 text-gray-300 hover:bg-gray-700 cursor-pointer">
                       <IoSettingsOutline size={20} /> Settings
-                    </li>
-                    <li className="flex gap-2 px-4 py-2 text-gray-300 hover:bg-gray-700 cursor-pointer">
+                    </li> */}
+                    <button className="flex gap-2 px-4 py-2 text-gray-300 hover:bg-gray-700 cursor-pointer" onClick={handleLogout}>
                       <MdLogout size={20} /> Logout
-                    </li>
+                    </button>
                   </ul>
                 </div>
               )}

@@ -1,23 +1,26 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
-import { Toaster } from 'react-hot-toast';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
+import { Toaster } from "react-hot-toast";
+import { UserProvider } from "./Context/UserContext";
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <Toaster
-        toastOptions={{
-          position: "top-right",
-          className: "",
-          style: {
-            "font-size": "14px",
-          },
-        }}
-      />
-    <App />
+      toastOptions={{
+        position: "top-right",
+        className: "",
+        style: {
+          "font-size": "14px",
+        },
+      }}
+    />
+    <UserProvider>
+      <App />
+    </UserProvider>
   </React.StrictMode>
 );
 

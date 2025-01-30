@@ -9,11 +9,13 @@ import { IoIosMenu } from "react-icons/io";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { RiSortNumberAsc } from "react-icons/ri";
 import { TbFileSpreadsheet } from "react-icons/tb";
+import { useRole } from "../Context/UserContext";
 
 function SideBar({ role }) {
   const location = useLocation();
   const pathname = location.pathname;
   const [isOpen, setIsOpen] = useState(false);
+  const { info, setInfo } = useRole();
 
   return (
     <>
@@ -48,10 +50,7 @@ function SideBar({ role }) {
             />
             <div className="flex flex-col">
               <span className="text-lg font-medium text-white tracking-[-0.04em] mb-1 leading-tight">
-                FriegtFlow
-              </span>
-              <span className="text-xs font-medium text-gray-400 tracking-[-0.06em] capitalize">
-                {role}
+                {info}
               </span>
             </div>
           </div>
