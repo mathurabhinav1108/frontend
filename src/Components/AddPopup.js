@@ -3,7 +3,14 @@ import Popup from "./Popup";
 import toast from "react-hot-toast";
 import Listing from "../Api/Listing";
 
-export default function AddPopup({ isOpen, onClose, data, isEdit = false, getData }) {
+export default function AddPopup({
+  isOpen,
+  onClose,
+  data,
+  isEdit = false,
+  getData,
+  setShowBackupButton,
+}) {
   const [formData, setFormData] = useState({
     user: "",
     broker: "",
@@ -55,6 +62,7 @@ export default function AddPopup({ isOpen, onClose, data, isEdit = false, getDat
           toast.success("Data updated successfully");
           onClose();
           getData();
+          setShowBackupButton(true);
         } else {
           toast.error("Unable to update data");
         }
@@ -77,7 +85,7 @@ export default function AddPopup({ isOpen, onClose, data, isEdit = false, getDat
   const handleAdd = (e) => {
     e.preventDefault();
     const main = new Listing();
-    const response = main.RowsAdd({ 
+    const response = main.RowsAdd({
       user: formData?.user,
       broker: formData?.broker,
       API_key: formData?.apiKey,
@@ -85,13 +93,14 @@ export default function AddPopup({ isOpen, onClose, data, isEdit = false, getDat
       pnl: formData?.pnl,
       margin: formData?.margin,
       max_risk: formData?.maxRisk,
-     });
+    });
     response
       .then((res) => {
         if (res && res?.data && res?.data?.message) {
           toast.success("Data added successfully");
           onClose();
           getData();
+          setShowBackupButton(true);
         } else {
           toast.error("Unable to add data");
         }
@@ -115,7 +124,7 @@ export default function AddPopup({ isOpen, onClose, data, isEdit = false, getDat
     <Popup isOpen={isOpen} onClose={onClose} size={"max-w-[800px]"}>
       <form
         onSubmit={isEdit ? handleEdit : handleAdd}
-        className="space-y-4 p-4 mt-4"
+        className="space-y-4 p-4 mt-4 bg-gray-800 rounded-lg shadow-lg"
       >
         {!isEdit && (
           <input
@@ -124,7 +133,7 @@ export default function AddPopup({ isOpen, onClose, data, isEdit = false, getDat
             placeholder="User"
             value={formData.user}
             onChange={handleChange}
-            className="w-full p-2 border rounded"
+            className="w-full p-2 bg-gray-700 text-gray-300 border border-gray-600 rounded placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
             required
           />
         )}
@@ -134,7 +143,7 @@ export default function AddPopup({ isOpen, onClose, data, isEdit = false, getDat
           placeholder="Broker"
           value={formData.broker}
           onChange={handleChange}
-          className="w-full p-2 border rounded"
+          className="w-full p-2 bg-gray-700 text-gray-300 border border-gray-600 rounded placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
           required
         />
         <input
@@ -143,7 +152,7 @@ export default function AddPopup({ isOpen, onClose, data, isEdit = false, getDat
           placeholder="API Key"
           value={formData.apiKey}
           onChange={handleChange}
-          className="w-full p-2 border rounded"
+          className="w-full p-2 bg-gray-700 text-gray-300 border border-gray-600 rounded placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
           required
         />
         <input
@@ -152,7 +161,7 @@ export default function AddPopup({ isOpen, onClose, data, isEdit = false, getDat
           placeholder="API Secret"
           value={formData.apiSecret}
           onChange={handleChange}
-          className="w-full p-2 border rounded"
+          className="w-full p-2 bg-gray-700 text-gray-300 border border-gray-600 rounded placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
           required
         />
         <input
@@ -161,7 +170,7 @@ export default function AddPopup({ isOpen, onClose, data, isEdit = false, getDat
           placeholder="PNL"
           value={formData.pnl}
           onChange={handleChange}
-          className="w-full p-2 border rounded"
+          className="w-full p-2 bg-gray-700 text-gray-300 border border-gray-600 rounded placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
           required
         />
         <input
@@ -170,7 +179,7 @@ export default function AddPopup({ isOpen, onClose, data, isEdit = false, getDat
           placeholder="Margin"
           value={formData.margin}
           onChange={handleChange}
-          className="w-full p-2 border rounded"
+          className="w-full p-2 bg-gray-700 text-gray-300 border border-gray-600 rounded placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
           required
         />
         <input
@@ -179,20 +188,20 @@ export default function AddPopup({ isOpen, onClose, data, isEdit = false, getDat
           placeholder="Max Risk"
           value={formData.maxRisk}
           onChange={handleChange}
-          className="w-full p-2 border rounded"
+          className="w-full p-2 bg-gray-700 text-gray-300 border border-gray-600 rounded placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
           required
         />
         {isEdit ? (
           <button
             type="submit"
-            className="w-full p-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+            className="w-full p-2 bg-blue-600 text-white rounded hover:bg-blue-500 transition duration-200"
           >
             Update
           </button>
         ) : (
           <button
             type="submit"
-            className="w-full p-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+            className="w-full p-2 bg-blue-600 text-white rounded hover:bg-blue-500 transition duration-200"
           >
             Add
           </button>

@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { useLocation, Link } from "react-router-dom";
+import { useLocation, Link, useNavigate } from "react-router-dom";
 import { MdLogout } from "react-icons/md";
 import { IoSettingsOutline } from "react-icons/io5";
 import SideBar from "./Sidebar";
+import toast from "react-hot-toast";
+import Listing from "../Api/Listing";
 
 export default function AuthLayout({ children, page }) {
-  // const router = useRouter(); // Corrected variable name
+  const navigate = useNavigate();
 
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
@@ -13,20 +15,54 @@ export default function AuthLayout({ children, page }) {
     setDropdownOpen((prev) => !prev);
   };
 
+  const fetchData = async (signal) => {
+    try {
+      const main = new Listing();
+      const response = await main.tokenVerify(signal);
+      if (response && response?.data && response?.data?.status) {
+        console.log("Token is valid");
+      }
+      else{
+      navigate("/login");
+      toast.error("Please log in first.");
+      }
+    } catch (error) {
+      console.log("error", error);
+      localStorage && localStorage?.removeItem("token");
+      navigate("/login");
+      toast.error("Please log in first.");
+    }
+  };
+
+  useEffect(() => {
+    const controller = new AbortController();
+    const { signal } = controller;
+    fetchData(signal);
+
+    return () => controller.abort();
+  }, []);
+
+  const handleLogout = () => {
+    localStorage && localStorage.removeItem("token");
+    navigate("/login");
+    toast.success("Logout Successfully");
+  };
+
+
   return (
     <div className="md:flex flex-wrap  bg-[#F5F6FB] items-start">
       <SideBar role={"Role"} />
       <div className="w-full lg:ml-[304px] lg:w-[calc(100%-304px)]">
-        <div className="fixed px-4 md:px-5 lg:px-[30px] py-3 lg:py-4 top-0  bg-white flex items-center w-full lg:w-[calc(100%-304px)] flex flex-wrap">
+        <div className="fixed px-4 md:px-5 lg:px-[30px] py-3 lg:py-4 top-0 bg-gray-900 flex items-center w-full lg:w-[calc(100%-304px)] flex flex-wrap border-b border-gray-700">
           <div className="w-4/12 pl-4 lg:pl-0">
-            <h1 className="text-[#151547] text-lg lg:text-2xl tracking-[-0.04em] font-medium">
+            <h1 className="text-gray-300 text-lg lg:text-2xl tracking-[-0.04em] font-medium">
               {page || "Dashboard"}
             </h1>
           </div>
           <div className="w-8/12 flex flex-wrap justify-end space-x-4">
             <div className="relative">
               <button
-                className="border border-black border-opacity-10 rounded-xl w-[48px] h-[38px] flex items-center justify-center text-[#151547] hover:bg-[#1C5FE8] hover:text-white"
+                className="border border-gray-600 rounded-xl w-[48px] h-[38px] flex items-center justify-center text-gray-300 hover:bg-blue-600 hover:text-white"
                 onClick={toggleDropdown}
               >
                 <svg
@@ -47,24 +83,23 @@ export default function AuthLayout({ children, page }) {
                     stroke-width="1.5"
                   />
                 </svg>
-                {/* <IoPersonOutline size={21} /> */}
               </button>
               {dropdownOpen && (
-                <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-300 rounded-md shadow-lg z-50">
+                <div className="absolute right-0 mt-2 w-48 bg-gray-800 border border-gray-600 rounded-md shadow-lg z-50">
                   <ul className="py-1">
-                    <li className="flex gap-2 px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                    {/* <li className="flex gap-2 px-4 py-2 text-gray-300 hover:bg-gray-700 cursor-pointer">
                       <IoSettingsOutline size={20} /> Settings
-                    </li>
-                    <li className="flex gap-2 px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                    </li> */}
+                    <button className="flex gap-2 px-4 py-2 text-gray-300 hover:bg-gray-700 cursor-pointer" onClick={handleLogout}>
                       <MdLogout size={20} /> Logout
-                    </li>
+                    </button>
                   </ul>
                 </div>
               )}
             </div>
           </div>
         </div>
-        <div className="px-4 md:px-5 lg:px-[30px] pt-20 lg:pt-24 pb-8 bg-[#F6F7FA]">
+        <div className="px-4 md:px-5 lg:px-[30px] pt-20 lg:pt-24 pb-8 bg-gray-800 text-gray-300">
           {children}
         </div>
       </div>
