@@ -81,8 +81,6 @@ export default function Login() {
             <label
               htmlFor="username"
               className="block text-sm lg:text-base font-medium text-[#727272] tracking-[-0.06em] mb-2"
-              htmlFor="email"
-              className="block text-sm lg:text-base font-medium text-gray-400 tracking-[-0.06em] mb-2"
             >
               Username
             </label>
