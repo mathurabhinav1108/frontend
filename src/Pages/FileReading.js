@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AuthLayout from "../Layout/AuthLayout";
 import { FaEdit } from "react-icons/fa";
 import { FaRegTrashCan } from "react-icons/fa6";
@@ -17,6 +17,7 @@ export default function FileReading() {
 
   const [listing, setLisitng] = useState("");
   const [Loading, setLoading] = useState(false);
+  const[selectedData,setSelectedData]=useState({});
 
   const getData = () => {
     setLoading(true);
@@ -120,6 +121,7 @@ export default function FileReading() {
                         className="cursor-pointer"
                         color="#16A34A"
                         onClick={() => {
+                          setSelectedData(data);
                           openEditPopup();
                         }}
                       />
@@ -139,13 +141,14 @@ export default function FileReading() {
         </div>
       </div>
       {/* Add Popup */}
-      <AddPopup isOpen={isPopupOpen} onClose={closePopup} />
+      <AddPopup isOpen={isPopupOpen} onClose={closePopup} getData={getData}/>
       {/* Edit Popup */}
       <AddPopup
+        data={selectedData}
         isOpen={isEditPopupOpen}
         onClose={closeEditPopup}
-        size={"max-w-[800px]"}
         isEdit={true}
+        getData={getData}
       />
     </AuthLayout>
   );

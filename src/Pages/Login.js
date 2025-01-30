@@ -102,11 +102,6 @@ export default function Login() {
               required
             />
           </div>
-          <div className="mb-4 text-right">
-            <Link to="/forgot-password" className="text-sm sm:text-lg text-[#1C5FE8] font-medium">
-              Forget Password?
-            </Link>
-          </div>
           <button
             type="submit"
             className="w-full py-3.5 px-4 bg-[#1C5FE8] text-white font-medium rounded-md lg:rounded-xl"

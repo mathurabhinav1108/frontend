@@ -14,7 +14,7 @@ export default function Dashboard() {
       .SessionsGet()
       .then((r) => {
         setLoading(false);
-        setLisitng(r?.data);
+        setLisitng(r?.data?.sessions);
       })
       .catch((err) => {
         setLoading(false);

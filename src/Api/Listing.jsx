@@ -3,7 +3,7 @@ import Api from "./Api";
 
 class Listing extends Component {
   async login(data) {
-    return Api.post("/user/login", data);
+    return Api.post("/login", data);
   }
 
   async Numbersgenerate(data) {
