@@ -35,7 +35,7 @@ class Listing extends Component {
   } 
   
   async Backup(data) {
-    return Api.get("/restore-backup", data);
+    return Api.post("/restore-backup", data);
   }
 
   async tokenVerify(data) {

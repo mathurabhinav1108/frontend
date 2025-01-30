@@ -52,8 +52,9 @@ export default function FileReading() {
   };
 
   const handleDelete = (user) => {
+    console.log("user",user);
     const main = new Listing();
-    const response = main.RowsDelete({ user });
+    const response = main.RowsDelete(user);
     response
       .then((res) => {
         if (res && res?.data && res?.data?.message) {

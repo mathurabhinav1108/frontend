@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-// const API_URL = process.env.REACT_APP_URL || "https://fastapi-e2wg.onrender.com";
-const API_URL = process.env.REACT_APP_URL || "http://127.0.0.1:8000";
+const API_URL = process.env.REACT_APP_URL || "https://fastapi-e2wg.onrender.com";
+// const API_URL = process.env.REACT_APP_URL || "http://127.0.0.1:8000";
 
 function getToken() {
   if (typeof window !== 'undefined') {

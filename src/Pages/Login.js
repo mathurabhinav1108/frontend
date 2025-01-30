@@ -82,10 +82,10 @@ export default function Login() {
               htmlFor="email"
               className="block text-sm lg:text-base font-medium text-gray-400 tracking-[-0.06em] mb-2"
             >
-              Email
+              Username
             </label>
             <input
-              type="email"
+              type="text"
               id="email"
               name="email"
               value={formData.email}

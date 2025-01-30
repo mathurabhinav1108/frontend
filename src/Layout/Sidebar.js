@@ -50,7 +50,7 @@ function SideBar({ role }) {
             />
             <div className="flex flex-col">
               <span className="text-lg font-medium text-white tracking-[-0.04em] mb-1 leading-tight">
-                {info}
+                Random Name
               </span>
             </div>
           </div>
